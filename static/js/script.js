@@ -15,5 +15,3 @@ let validate = () => {
 }
 
 document.getElementById('validate').addEventListener('click', validate)
-
-
