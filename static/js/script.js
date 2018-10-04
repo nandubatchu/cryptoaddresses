@@ -6,7 +6,7 @@ let validate = () => {
     currency = currency_field.value
     address = address_field.value
 
-    fetch(`/api/validate-address/${currency}/${address}`)
+    fetch(`/api/validate/${currency}/${address}`)
         .then(res => res.json())
         .then((res) => {
             validation_response.innerHTML = JSON.stringify(res.result);

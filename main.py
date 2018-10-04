@@ -1,33 +1,38 @@
 from flask import Flask, render_template, jsonify
 
-from cryptocurrencies import symbol_to_class_mapping
+from src import currencies_mapping
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def homepage():
-    return render_template('index.html', title='CryptoAddresses', currencies=[s for s in symbol_to_class_mapping])
+    return render_template('index.html', title='CryptoAddresses',
+                           currencies=[{
+                               "symbol": symbol,
+                               "name": currency_dict['name']
+                           } for symbol, currency_dict in currencies_mapping.items()])
 
 
 @app.route('/api/supported-currencies')
 def supported_currencies():
     response = {
         "result": [{
-            "symbol": s,
-            "name": c.name
-        } for s, c in symbol_to_class_mapping.items()]
+            "symbol": symbol,
+            "name": currency_dict['name']
+        } for symbol, currency_dict in currencies_mapping.items()]
     }
     return jsonify(response)
 
 
 # Validate if the address is valid or not
-@app.route('/api/validate-address/<currency>/<address>')
+@app.route('/api/validate/<currency>/<address>')
 def is_address(currency: str, address: str):
     currency = currency.lower()
+    currency_mapping = currencies_mapping[currency]
     response = {
         "result": {
-            'is_valid': symbol_to_class_mapping[currency].is_address(address=address)
+            'is_valid': currency_mapping['validation_method'](address=address, **currency_mapping.get('validation_args', {}))
         }
     }
     return jsonify(response)

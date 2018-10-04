@@ -10,8 +10,8 @@
 
     <section id="address_validation">
         <select id="currency">
-            {% for symbol in currencies %}
-                <option value="{{ symbol }}">{{ symbol.upper() }}</option>
+            {% for currency in currencies %}
+                <option value="{{ currency['symbol'] }}">{{ currency['symbol'].upper() }} - {{ currency['name'] }}</option>
             {% endfor %}
         </select>
         <input id="address">
