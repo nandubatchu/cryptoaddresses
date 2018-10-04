@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{title}}</title>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
 </head>
 <body>
-    <h2>{{title}}</h2>
+    <h2>{{ title }}</h2>
+
+    <section id="address_validation">
+        <select id="currency">
+            {% for symbol in currencies %}
+                <option value="{{ symbol }}">{{ symbol.upper() }}</option>
+            {% endfor %}
+        </select>
+        <input id="address">
+        <button id="validate">validate</button>
+        <pre id="validation_response"></pre>
+    </section>
+    <script src="static/js/script.js"></script>
 </body>
 </html>
